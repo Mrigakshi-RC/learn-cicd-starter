@@ -19,7 +19,7 @@ jobs:
           go-version: "1.26.0"
 
       - name: Build app
-        run: bash scripts/buildprod.sh
+        run: ./scripts/buildprod.sh
 
       - id: auth
         uses: google-github-actions/auth@v2
@@ -32,6 +32,6 @@ jobs:
       - name: Use gcloud CLI
         run: gcloud info
 
-      - name: Build and push Docker image
-        run: gcloud builds submit --tag us-central1-docker.pkg.dev/notely-500506/notely-ar-repo:latest .
+      - name: Deploy to Cloud Run
+        run: gcloud run deploy notely --image us-central1-docker.pkg.dev/notely-500506/notely-ar-repo/notely@sha256:5b89bcbf9cc74d257ff0ecd9c1da8f51cebcbd1798deab7ce8ebb939373da7f0 --region us-central1 --allow-unauthenticated --project notely-500506 --max-instances=4
   
